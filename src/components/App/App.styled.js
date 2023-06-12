@@ -14,3 +14,8 @@ export const PhonebookTitle = styled.h1`
 export const ContactsTitle = styled.h2`
   text-align: center;
 `;
+export const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

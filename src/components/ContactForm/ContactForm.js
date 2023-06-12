@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact, getAllContacts } from 'redux/contactsSlice';
-import { nanoid } from 'nanoid';
+import { useGetContactsQuery, useAddContactMutation } from 'redux/contactsApi';
+import { Spinner } from 'components/Spinner/Spinner';
 import {
   FormLabel,
   LabelSpan,
@@ -37,20 +36,20 @@ const succsessMsg = name =>
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setNumber] = useState('');
 
-  const allContacts = useSelector(getAllContacts);
-  const dispatch = useDispatch();
+  const { data } = useGetContactsQuery();
+  const [addContact, { isLoading }] = useAddContactMutation();
 
   const onSubmit = e => {
     e.preventDefault();
-    const names = allContacts.contacts.map(item => item.name);
+    const names = data?.map(item => item.name);
     if (names.some(item => item.toLowerCase() === name.toLowerCase())) {
       errorMsg(name);
       return;
     }
-    const id = nanoid();
-    dispatch(addContact({ name, number, id }));
+    const newContact = {name, phone};
+  addContact(newContact);
     succsessMsg(name);
     setName('');
     setNumber('');
@@ -79,12 +78,14 @@ export const ContactForm = () => {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            value={number}
+            value={phone}
             onChange={e => setNumber(e.target.value)}
           />
         </FormLabel>
         <div>
-          <BtnSubmit type="submit">Submit</BtnSubmit>
+          <BtnSubmit type="submit" disabled={isLoading}>
+            {isLoading ? <Spinner /> : 'Submit'}
+          </BtnSubmit>
         </div>
       </form>
       <ToastContainer />
