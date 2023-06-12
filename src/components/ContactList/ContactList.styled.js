@@ -8,4 +8,3 @@ export const List = styled.ul`
   flex-direction: column;
   gap: 10px;
 `;
-

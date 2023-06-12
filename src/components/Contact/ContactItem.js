@@ -1,5 +1,3 @@
-
-
 import { Spinner } from 'components/Spinner/Spinner';
 import { useDeleteContactMutation } from 'redux/contactsApi';
 import { TiDelete } from 'react-icons/ti';
@@ -19,24 +17,22 @@ const warningMsg = name =>
     progress: undefined,
     theme: 'colored',
   });
-export const ContactItem = ({item}) => {
-    const [deleteContact, { isLoading }] = useDeleteContactMutation();
+export const ContactItem = ({ item }) => {
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
   return (
-    
-            <ListItem>
-             <span>{item.name}</span>
-        <span>{item.phone}</span>
-                       <ContactItemBtn
-                type="button"
-                onClick={() => {
-                  deleteContact(item.id);
-                  warningMsg(item.name);
-                }}
-              >
-                      {isLoading ? <Spinner/> : <TiDelete />}
-              </ContactItemBtn>
-            </ListItem>
-          );
-        }
-       
+    <ListItem>
+      <span>{item.name}</span>
+      <span>{item.phone}</span>
+      <ContactItemBtn
+        type="button"
+        onClick={() => {
+          deleteContact(item.id);
+          warningMsg(item.name);
+        }}
+      >
+        {isLoading ? <Spinner /> : <TiDelete />}
+      </ContactItemBtn>
+    </ListItem>
+  );
+};

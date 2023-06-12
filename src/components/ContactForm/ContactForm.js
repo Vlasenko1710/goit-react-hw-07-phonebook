@@ -48,8 +48,8 @@ export const ContactForm = () => {
       errorMsg(name);
       return;
     }
-    const newContact = {name, phone};
-  addContact(newContact);
+    const newContact = { name, phone };
+    addContact(newContact);
     succsessMsg(name);
     setName('');
     setNumber('');
